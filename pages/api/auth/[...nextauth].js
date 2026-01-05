@@ -4,6 +4,7 @@ import axios from "axios";
 import BASE_URL from "../../../utils/constants";
 
 export default NextAuth({
+
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -14,7 +15,7 @@ export default NextAuth({
             async authorize(credentials) {
                 try {
                     // Appel à l'API Laravel login
-                    const res = await axios.post(BASE_URL+"/api/login", {
+                    const res = await axios.post( `${process.env.NEXT_PUBLIC_API_URL}/login`, {
                         email: credentials.email,
                         password: credentials.password
                     });
