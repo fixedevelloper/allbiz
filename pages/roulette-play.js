@@ -9,7 +9,7 @@ const RoulettePlay = () => {
             <Layout>
                 <div className="accounts mb-80">
                     <div className="container text-center">
-                        <RouletteWheel rouletteId={} type={}/>
+
                     </div>
                 </div>
             </Layout>
