@@ -12425,7 +12425,6 @@ label.error {
 }
 
 .apps-download {
-  background-image: url("./../images/app.png");
   background-color: #fff;
   background-size: cover;
   background-position: center;
