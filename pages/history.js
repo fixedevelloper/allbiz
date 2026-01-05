@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../Components/Layout/Layout';
 import {useSession} from "next-auth/react";
-import API from "./utils/axios";
+import API from "../utils/axios";
 import {useTranslation} from "react-i18next";
 
 const getStatusBadge = (status) => {

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Layout from "../../Components/Layout/Layout";
-import API from "../utils/axios";
+import API from "../../utils/axios";
 import RouletteWheel from "../../Components/Elements/RouletteWheel";
 import {toast} from "react-toastify";
 import {useTranslation} from "react-i18next";

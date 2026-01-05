@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 
 import { toast } from "react-toastify";
 import Layout from '../Components/Layout/Layout';
-import API from "./utils/axios";
+import API from "../utils/axios";
 
 import { useTranslation } from "react-i18next";
 

@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import Link from "next/link";
-import API from "../utils/axios";
+import API from "../../utils/axios";
 import {useTranslation} from "react-i18next";
 import {useRouter} from "next/router";
 import LayoutFront from "../../Components/Layout/LayoutFront";

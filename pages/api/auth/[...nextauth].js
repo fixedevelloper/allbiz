@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
-import BASE_URL from "../../utils/constants";
+import BASE_URL from "../../../utils/constants";
 
 export default NextAuth({
     providers: [

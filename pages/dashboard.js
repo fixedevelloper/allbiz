@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Layout from "../Components/Layout/Layout";
 import {useSession} from "next-auth/react";
 import { useEffect, useState } from "react";
-import API from "./utils/axios";
+import API from "../utils/axios";
 import {toast} from "react-toastify";
 import {useTranslation} from "react-i18next";
 

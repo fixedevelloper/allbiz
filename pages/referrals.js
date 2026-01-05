@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Layout from "../Components/Layout/Layout";
 import {Axios as axios} from "axios";
-import API from "./utils/axios";
+import API from "../utils/axios";
 import {useTranslation} from "react-i18next";
 
 

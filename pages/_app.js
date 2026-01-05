@@ -1,7 +1,7 @@
 import '../public/css/style.css'
 import '../public/css/custom.css'
 import 'react-toastify/dist/ReactToastify.css';
-import '../pages/i18n';
+import '../i18n';
 import { SessionProvider } from "next-auth/react";
 import {ToastContainer} from "react-toastify";
 

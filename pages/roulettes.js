@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Layout from "../Components/Layout/Layout";
-import API from "./utils/axios";
+import API from "../utils/axios";
 import {useTranslation} from "react-i18next";
 
 export default function Roulettes() {

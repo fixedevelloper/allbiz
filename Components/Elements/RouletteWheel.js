@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
-import API from "../../pages/utils/axios";
+import API from "../../utils/axios";
 const Wheel = dynamic(
     () => import("react-custom-roulette").then((mod) => mod.Wheel),
     { ssr: false }

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, {useEffect, useState} from 'react';
 import Layout from '../Components/Layout/Layout';
-import API from "./utils/axios";
+import API from "../utils/axios";
 import {useRouter} from "next/router";
 import {toast} from "react-toastify";
 const Withdraws = () => {
