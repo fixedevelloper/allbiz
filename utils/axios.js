@@ -1,8 +1,9 @@
 import axios from "axios";
 import { getSession, signOut } from "next-auth/react";
 import BASE_URL from "./constants";
+
 const API = axios.create({
-    baseURL: BASE_URL+"/api/",
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/`,
     headers: {
         "Content-Type": "application/json",
     },

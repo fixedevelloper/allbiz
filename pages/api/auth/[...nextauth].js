@@ -15,7 +15,7 @@ export default NextAuth({
             async authorize(credentials) {
                 try {
                     // Appel à l'API Laravel login
-                    const res = await axios.post( `${process.env.NEXT_PUBLIC_API_URL}/login`, {
+                    const res = await axios.post( `${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
                         email: credentials.email,
                         password: credentials.password
                     });

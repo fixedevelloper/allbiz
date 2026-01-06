@@ -50,7 +50,20 @@ export default function Dashboard() {
         }
     }, [status, session]);
 
-    if (status === "loading" || loading) return <p>Loading...</p>;
+    if (loading) {
+        return (
+            <Layout>
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "60vh" }}>
+                    <div className="text-center">
+                        <div className="spinner-border text-warning mb-3" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        <p className="text-muted">{t("history.loading")}</p>
+                    </div>
+                </div>
+            </Layout>
+        );
+    }
     if (status === "unauthenticated") {
         if (typeof window !== "undefined") window.location.href = "/auth/signin";
         return null;

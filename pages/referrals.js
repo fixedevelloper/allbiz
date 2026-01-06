@@ -37,7 +37,21 @@ export default function Referrals() {
 
 
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) {
+        return (
+            <Layout>
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "60vh" }}>
+                    <div className="text-center">
+                        <div className="spinner-border text-warning mb-3" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        <p className="text-muted">{t("history.loading")}</p>
+                    </div>
+                </div>
+            </Layout>
+        );
+    }
+
 
     return (
         <Layout>
