@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import {Country} from "../types/types";
 
-type Country = {
+/*type Country = {
     code: string;
     name: string;
     flag: string;
-};
+};*/
 
 const COUNTRIES = [
     {
@@ -31,7 +32,9 @@ const COUNTRIES = [
 
 ];
 
+
 interface PhoneInputProps {
+    countries: Country[];
     value: string;
     countryCode: string;
     onChange: (phone: string) => void;
@@ -40,6 +43,7 @@ interface PhoneInputProps {
 }
 
 export default function PhoneInput({
+                                       countries,
                                        value,
                                        countryCode,
                                        onChange,
@@ -47,7 +51,15 @@ export default function PhoneInput({
                                        label = "Numéro de téléphone",
                                    }: PhoneInputProps) {
     const [open, setOpen] = useState(false);
-    const selectedCountry = COUNTRIES.find(c => c.code === countryCode)!;
+
+    const selectedCountry =
+        countries.find(c => c.code === countryCode) ??
+        countries.find(c => c.code !== null) ??
+        null;
+
+    if (!selectedCountry || !selectedCountry.code) {
+        return null; // sécurité absolue
+    }
 
     return (
         <div className="w-full relative">
@@ -62,15 +74,18 @@ export default function PhoneInput({
                 {/* Country selector */}
                 <button
                     type="button"
-                    onClick={() => setOpen(!open)}
+                    onClick={() => setOpen(o => !o)}
                     className="flex items-center gap-2 px-3 bg-gray-100 border-r border-gray-300 text-sm"
                 >
                     <img
-                        src={selectedCountry.flag}
-                        alt={selectedCountry.name}
+
+                        src={process.env.NEXT_PUBLIC_API_URL+selectedCountry.image_url}
+                        alt={selectedCountry.name ?? "Pays"}
                         className="w-5 h-5 rounded-full"
                     />
-                    <span className='text-blue-700'>{selectedCountry.code}</span>
+                    <span className="text-blue-700">
+                        {selectedCountry.code}
+                    </span>
                 </button>
 
                 {/* Phone input */}
@@ -85,24 +100,35 @@ export default function PhoneInput({
 
             {/* Dropdown */}
             {open && (
-                <div className="absolute z-20 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg overflow-hidden">
-                    {COUNTRIES.map((c) => (
-                        <button
-                            key={c.code}
-                            type="button"
-                            onClick={() => {
-                                onCountryChange(c.code);
-                                setOpen(false);
-                            }}
-                            className="flex items-center gap-3 px-4 py-2 w-full hover:bg-gray-100 text-sm"
-                        >
-                            <img src={c.flag} alt={c.name} className="w-5 h-5 rounded-full" />
-                            <span className="flex-1 text-gray-800">{c.name}</span>
-                            <span className="text-gray-500">{c.code}</span>
-                        </button>
-                    ))}
+                <div className="absolute z-20 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+                    {countries
+                        .filter(c => c.code !== null)
+                        .map((c) => (
+                            <button
+                                key={c.id}
+                                type="button"
+                                onClick={() => {
+                                    onCountryChange(c.code!);
+                                    setOpen(false);
+                                }}
+                                className="flex items-center gap-3 px-4 py-2 w-full hover:bg-gray-100 text-sm"
+                            >
+                                <img
+                                    src={process.env.NEXT_PUBLIC_API_URL+c.image_url}
+                                    alt={c.name ?? "Pays"}
+                                    className="w-5 h-5 rounded-full"
+                                />
+                                <span className="flex-1 text-gray-800">
+                                    {c.name ?? "—"}
+                                </span>
+                                <span className="text-gray-500">
+                                    {c.code}
+                                </span>
+                            </button>
+                        ))}
                 </div>
             )}
         </div>
     );
 }
+

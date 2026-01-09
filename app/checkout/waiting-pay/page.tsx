@@ -15,7 +15,7 @@ export default function WaitingPaiement() {
 
   useEffect(() => {
     if (!referenceId) {
-      router.push("/dashboard");
+      router.push("/");
       return;
     }
 

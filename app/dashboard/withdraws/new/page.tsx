@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import BottomNav from "@/app/components/BottomNav";
 import axiosServices from "../../../lib/axios";
 import PhoneInput from "../../../components/PhoneInput";
+import {Country} from "../../../types/types";
 
 
 interface Operator {
@@ -26,7 +27,7 @@ interface WithdrawAccount {
 export default function NewWithdraw() {
     const { data: session } = useSession();
     const router = useRouter();
-
+    const [countries, setCountries] = useState<Country[]>([]);
     const [accounts, setAccounts] = useState<WithdrawAccount[]>([]);
     const [selectedAccount, setSelectedAccount] = useState<number | null>(null);
     const [newAccountName, setNewAccountName] = useState("");
@@ -54,6 +55,8 @@ export default function NewWithdraw() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const res = await axiosServices.get("/api/countries");
+                setCountries(res.data.data ?? res.data);
                 const accRes = await axiosServices.get("/api/withdraw-accounts");
                 setAccounts(accRes.data.data ?? []);
                 const opsRes = await axiosServices.get("/api/operators");
@@ -174,6 +177,7 @@ export default function NewWithdraw() {
                                         onChange={(e) => setNewAccountName(e.target.value)}
                                     />
                                     <PhoneInput
+                                        countries={countries}
                                         value={newAccountPhone}
                                         countryCode={countryCode}
                                         onChange={setNewAccountPhone}

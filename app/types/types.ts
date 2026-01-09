@@ -43,6 +43,7 @@ export interface Operator {
 export interface Country {
   id: number;
   name: string | null;
+  code: string | null;
   image_url: string;
   operators: Operator[];
 }

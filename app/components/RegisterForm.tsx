@@ -5,10 +5,15 @@ import {useRouter, useSearchParams} from "next/navigation";
 import {signIn} from "next-auth/react";
 import PhoneInput from "./PhoneInput";
 import PasswordInput from "./PasswordInput";
+import axiosServices from "../lib/axios";
+import {Country} from "../types/types";
+import {useSnackbar} from "notistack";
 
 export default function RegisterForm() {
     const searchParams = useSearchParams();
+    const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
+    const [countries, setCountries] = useState<Country[]>([]);
     const [countryCode, setCountryCode] = useState("+237");
     const [phone, setPhone] = useState("");
     const [reference, setReference] = useState("");
@@ -22,25 +27,41 @@ export default function RegisterForm() {
         const ref = searchParams.get("ref");
         if (ref) setReference(ref);
     }, [searchParams]);
+    // ✅ Chargement des pays
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const res = await axiosServices.get("/api/countries");
+                setCountries(res.data.data ?? res.data);
+            } catch {
+                enqueueSnackbar("Impossible de charger les pays", { variant: "error" });
+                setError("Impossible de charger les pays");
+            }
+        };
 
+        fetchCountries();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError("");
         if (!phone || !password || !confirmPassword) {
+            enqueueSnackbar("Veuillez remplir tous les champs", { variant: "error" });
             setError("Veuillez remplir tous les champs");
             setLoading(false);
             return;
         }
 
         if (password.length < 6) {
+            enqueueSnackbar("Le mot de passe doit contenir au moins 6 caractères", { variant: "error" });
             setError("Le mot de passe doit contenir au moins 6 caractères");
             setLoading(false);
             return;
         }
 
         if (password !== confirmPassword) {
+            enqueueSnackbar("Les mots de passe ne correspondent pas", { variant: "error" });
             setError("Les mots de passe ne correspondent pas");
             setLoading(false);
             return;
@@ -58,6 +79,7 @@ export default function RegisterForm() {
             const data = await res.json();
 
             if (!res.ok) {
+                enqueueSnackbar(data.message || "Erreur lors de l'inscription", { variant: "error" });
                 setError(data.message || "Erreur lors de l'inscription");
                 setLoading(false);
                 return;
@@ -70,15 +92,17 @@ export default function RegisterForm() {
             });
 
             if (result?.error) {
+                enqueueSnackbar(result.error || "Erreur lors de la connexion automatique", { variant: "error" });
                 setError(result.error || "Erreur lors de la connexion automatique");
                 setLoading(false);
                 return;
             }
-
+            enqueueSnackbar("Incription reussie", { variant: "success" });
             // 3️⃣ Redirection après succès
             router.push("/"); // Ou la page principale après login
         } catch (err: any) {
             console.error(err);
+            enqueueSnackbar("Impossible de se connecter au serveur", { variant: "error" });
             setError("Impossible de se connecter au serveur");
         } finally {
             setLoading(false);
@@ -87,6 +111,7 @@ export default function RegisterForm() {
     return(
         <form onSubmit={handleSubmit} className="space-y-4">
             <PhoneInput
+                countries={countries}
                 value={phone}
                 countryCode={countryCode}
                 onChange={setPhone}

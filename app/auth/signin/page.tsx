@@ -9,11 +9,15 @@ import Image from "next/image";
 import logo from '../../../public/logo.png'
 import PhoneInput from "../../components/PhoneInput";
 import PasswordInput from "../../components/PasswordInput";
-
+import {Country} from "../../types/types";
+import axiosServices from "../../lib/axios";
+import {useSnackbar} from "notistack";
 
 export default function Login() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+  const [countries, setCountries] = useState<Country[]>([]);
   const [countryCode, setCountryCode] = useState("+237");
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
@@ -21,53 +25,68 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // 🔹 Redirection si déjà connecté
+  // ✅ Redirection si déjà connecté
   useEffect(() => {
-    if (session) {
-      router.push('/dashboard');
+    if (status === "authenticated") {
+      router.replace("/dashboard");
     }
-  }, [session, router]);
+  }, [status, router]);
 
-  // Affichage pendant que la redirection n'a pas encore eu lieu
-  if (session) return null;
-  // ✅ Gérer la soumission du formulaire
+  // ✅ Chargement des pays
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await axiosServices.get("/api/countries");
+        setCountries(res.data.data ?? res.data);
+      } catch {
+        enqueueSnackbar("Impossible de charger les pays", { variant: "error" });
+        setError("Impossible de charger les pays");
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  // ⏳ RENDER SAFE (APRÈS TOUS LES HOOKS)
+  if (status === "loading") {
+    return null;
+  }
+
+  // ✅ Soumission formulaire
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!username || !password) {
       setError('Veuillez remplir tous les champs');
+      enqueueSnackbar("Veuillez remplir tous les champs", { variant: "error" });
       return;
     }
 
-    setError('');
     setLoading(true);
+    setError('');
 
     try {
       const fullPhone = `${countryCode}${username}`;
 
-      // Appel à NextAuth (si configuré)
       const res = await signIn('credentials', {
         redirect: false,
-        phone:fullPhone,
+        phone: fullPhone,
         password,
       });
 
       if (res?.error) {
+        enqueueSnackbar("Identifiants incorrects", { variant: "error" });
         setError('Identifiants incorrects');
       } else {
-        router.push('/dashboard'); // Redirection après connexion
+        router.push('/dashboard');
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
+      enqueueSnackbar("Une erreur est survenue", { variant: "error" });
       setError('Une erreur est survenue');
     } finally {
       setLoading(false);
     }
   };
-
-
-
-
   return (
     <div className="min-h-screen bg-gray-100 pb-20 flex flex-col">
 
@@ -89,6 +108,7 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <PhoneInput
+                countries={countries}
                 value={username}
                 countryCode={countryCode}
                 onChange={setUsername}
