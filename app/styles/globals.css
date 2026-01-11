@@ -60,3 +60,11 @@
     box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.15);
   }
 }
+/* globals.css */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

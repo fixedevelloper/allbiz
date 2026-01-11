@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Metadata } from "next";
 import AppProvidersWrapper from "./providers/AppProvidersWrapper";
+import {CartProvider} from "./context/CartContext";
 
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
       <head />
       <body>
       <AppProvidersWrapper>
+          <CartProvider>
         {children}
+          </CartProvider>
       </AppProvidersWrapper>
       </body>
       </html>

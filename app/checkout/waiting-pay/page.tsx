@@ -36,7 +36,7 @@ export default function WaitingPaiement() {
         const data = await res.json();
         if (isCancelled) return;
 
-        if (data.status === "confirmed") {
+        if (data.status === "success") {
           clearInterval(intervalId);
           setStatusMessage("✅ Paiement confirmé !");
           setTimeout(() => router.push("/checkout/success"), 1000);

@@ -1,40 +1,3 @@
-export interface Phone {
-  id: number;
-  name?: string;
-  nom?: string;
-  memory?: string;
-  image?: string;
-  img?: string;
-  image_url?: string;
-  prixCash?: number;
-  price?: number;
-  prix?: number;
-  prixLeasing?: number;
-  price_leasing?: number;
-  isCustom?: boolean;
-}
-export interface Product {
-  id: number;
-  name: string;
-  image_url?: string;
-}
-
-interface OrderItem {
-  id: number;
-  quantity: number;
-  amount: number;
-  product: Product;
-}
-
-export interface Order {
-  id: number;
-  reference_id: string | null;
-  amount: number;
-  amount_rest: number;
-  status: "pending" | "waiting" | "confirmed" | "failed";
-  created_at: string;
-  items: OrderItem[];
-}
 export interface Operator {
   id: number;
   name: string;
@@ -81,4 +44,44 @@ export interface Formule {
   name: string;
   price: number;
   description?: string;
+}
+export interface ProductImage {
+  id: number;
+  name: string;
+  src: string;
+}
+export interface Category {
+  id: number;
+  name: string;
+}
+export interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  downloable: boolean;
+  is_promotion: boolean;
+  price: number;
+  promotion_price: number;
+  description?: string;
+  how_it_works?: string;
+  category?: Category;
+  category_id?: number;
+  images?: ProductImage[];
+}
+interface OrderItem {
+  product_id: number;
+  name: string;
+  quantity: number;
+  price: number;
+  promotion_price?: number;
+}
+
+export interface Order {
+  id: number;
+  status: 'pending' | 'waiting' | 'confirmed' | 'failed';
+  amount: number;
+  amount_rest?: number;
+  reference_id?: string;
+  created_at: string;
+  items: OrderItem[];
 }

@@ -47,6 +47,11 @@ const items = [
         icon: "/icons/about.svg",
         href: "/dashboard/about",
     },
+    {
+        title: "Market",
+        icon: "/icons/market.svg",
+        href: "/market",
+    },
 ];
 
 export default function HomeGrid() {
