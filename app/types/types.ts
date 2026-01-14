@@ -26,9 +26,11 @@ export interface Commission {
   roulette_count:number,
   phone:string
 }
+type WithdrawStatus = "pending" | "processing" | "success" | "failed";
+
 export interface Withdraw {
   id: number
-  status: boolean
+  status: WithdrawStatus;
   created_at: string
   amount: number
   operator?: Operator

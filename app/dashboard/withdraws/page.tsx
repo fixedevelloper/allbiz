@@ -38,6 +38,24 @@ export default function Withdraw() {
         router.push("/");
         return null;
     }
+    const STATUS_CONFIG = {
+        pending: {
+            label: "⏳ En attente",
+            className: "text-gray-500",
+        },
+        processing: {
+            label: "🔄 En cours",
+            className: "text-blue-600",
+        },
+        success: {
+            label: "✅ Validé",
+            className: "text-green-600",
+        },
+        failed: {
+            label: "❌ Échoué",
+            className: "text-red-600",
+        },
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 pb-24 flex flex-col">
@@ -86,38 +104,54 @@ export default function Withdraw() {
                 )}
 
                 {/* Retrait cards */}
-                {withdraws.map((withdraw) => (
-                    <div
-                        key={withdraw.id}
-                        className="bg-white rounded-2xl shadow-md p-4 w-full flex flex-col gap-2 hover:shadow-xl transition"
-                    >
-                        <div className="flex justify-between items-center">
-                            <p className="text-sm text-gray-400">Retrait #{withdraw.id}</p>
-                            <p className={`text-xs font-semibold ${withdraw.status ? "text-green-600" : "text-red-600"}`}>
-                                {withdraw.status ? "✅ Validé" : "⏳ En attente"}
+                {withdraws.map((withdraw) => {
+                    const status = STATUS_CONFIG[withdraw.status] ?? {
+                        label: "❓ Inconnu",
+                        className: "text-gray-400",
+                    };
+
+                    return (
+                        <div
+                            key={withdraw.id}
+                            className="bg-white rounded-2xl shadow-md p-4 w-full flex flex-col gap-2 hover:shadow-xl transition"
+                        >
+                            <div className="flex justify-between items-center">
+                                <p className="text-sm text-gray-400">
+                                    Retrait #{withdraw.id}
+                                </p>
+
+                                <p className={`text-xs font-semibold ${status.className}`}>
+                                    {status.label}
+                                </p>
+                            </div>
+
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <p className="text-gray-600">💰 Montant</p>
+                                    <p className="text-lg font-bold text-[#0F766E]">
+                                        {withdraw.amount.toLocaleString()} FCFA
+                                    </p>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <img
+                                        src={withdraw.operator?.image_url}
+                                        alt={withdraw.operator?.name}
+                                        className="w-8 h-8 object-contain rounded-full"
+                                    />
+                                    <p className="text-gray-800 font-semibold">
+                                        {withdraw.operator?.name}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p className="text-right text-gray-400 text-xs">
+                                {new Date(withdraw.created_at).toLocaleString()}
                             </p>
                         </div>
+                    );
+                })}
 
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <p className="text-gray-600">💰 Montant</p>
-                                <p className="text-lg font-bold text-[#0F766E]">{withdraw.amount.toLocaleString()} FCFA</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <img
-                                    src={withdraw.operator?.image_url}
-                                    alt={withdraw.operator?.name}
-                                    className="w-8 h-8 object-contain rounded-full"
-                                />
-                                <p className="text-gray-800 font-semibold">{withdraw.operator?.name}</p>
-                            </div>
-                        </div>
-
-                        <p className="text-right text-gray-400 text-xs">
-                            {new Date(withdraw.created_at).toLocaleString()}
-                        </p>
-                    </div>
-                ))}
             </div>
 
             <BottomNav />

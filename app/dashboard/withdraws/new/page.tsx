@@ -111,7 +111,7 @@ export default function NewWithdraw() {
         }
     };
 
-    const netAmount = amount * 0.9;
+    const netAmount = amount * 0.85;
 
     return (
         <div className="min-h-screen bg-gray-100 pb-24 flex flex-col">
@@ -224,7 +224,7 @@ export default function NewWithdraw() {
                                     max={balance}
                                 />
                                 <p className="text-gray-500 text-sm mt-1">
-                                    Montant net après 10% de frais :{" "}
+                                    Montant net après 15% de frais :{" "}
                                     <span className="font-bold text-[#014d74]">{netAmount.toLocaleString()} FCFA</span>
                                 </p>
                             </div>

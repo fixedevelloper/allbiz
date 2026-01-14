@@ -41,6 +41,10 @@ export default function CheckoutPage() {
             enqueueSnackbar('Veuillez remplir tous les champs', { variant: "error" });
             return;
         }
+        if (platform==null){
+            enqueueSnackbar('Veuillez choisir une plateforme', { variant: "error" });
+            return;
+        }
         setLoading(true);
 
         // 🔹 Ici tu peux appeler ton API Laravel pour créer la commande
@@ -60,13 +64,19 @@ export default function CheckoutPage() {
 
                 const data = response.data; // ✅ Correction ici
 
-                if (data.referenceId) {
+                if (data.referenceId && data.payment_url) {
                     localStorage.setItem("referenceId", data.referenceId);
-                    router.push("/checkout/waiting-pay");
+
+                    // 🔗 Ouvrir le paiement dans un nouvel onglet
+                    window.open(data.payment_url, "_blank");
+
+                    // Optionnel : redirection interne
+                     router.push("/checkout/waiting-pay");
                 } else {
                     enqueueSnackbar("Aucune référence de paiement reçue.", { variant: "error" });
                     throw new Error("Aucune référence de paiement reçue.");
                 }
+
             } catch (err: any) {
                 enqueueSnackbar("Erreur de paiement:"+ err.response?.data || err.message, { variant: "error" });
                 console.error("Erreur de paiement:", err.response?.data || err.message);
@@ -75,8 +85,8 @@ export default function CheckoutPage() {
             } finally {
                 setLoading(false);
             }
-            enqueueSnackbar('Commande passée avec succès !', { variant: "error" });
-            alert('Commande passée avec succès !');
+            enqueueSnackbar('Commande passée avec succès !', { variant: "success" });
+
             clearCart();
         } catch (err) {
             console.error(err);
@@ -199,7 +209,10 @@ export default function CheckoutPage() {
                     {operators.map(operator => (
                         <button
                             key={operator.name}
-                            onClick={() => setPlatform(operator)}
+                            onClick={() => {
+                                console.log(platform)
+                                setPlatform(operator)
+                            }}
                             className={`flex flex-col items-center justify-center rounded-2xl border-2 p-2 transition-all duration-200 
               ${platform?.name === operator.name
                                 ? "border-[#014d74] shadow-xl scale-105 bg-[#E0F7FA]"
