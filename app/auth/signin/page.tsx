@@ -98,7 +98,8 @@ export default function Login() {
             <Link href="/">
               <Image src={logo} alt="Logo" width={100} height={20} />
             </Link>
-            <span className="text-xs text-gray-500">Plateforme sécurisée</span>
+{/*            <span className="text-xs text-gray-500">Plateforme sécurisée</span>*/}
+            <span className="text-sm text-center text-gray-800 font-bold mt-4"> A PARTIR DE 1000fcfa SEULEMENT POUR UN ACCÈS À VIE</span>
           </div>
 
 
