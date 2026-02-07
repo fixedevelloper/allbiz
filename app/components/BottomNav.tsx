@@ -34,7 +34,7 @@ console.log(userRole)
     { name: "Recompenses", path: "/dashboard/recompenses", icon: ExpandIcon, role: "all" },
     { name: "Inviter les amis", path: "/dashboard/invite-freinds", icon: Share2Icon, role: "all" },
     { name: "Recharger", path: "/dashboard/recharges", icon: Wallet2Icon, role: "all" },
-    { name: "Plus info", path: "/help", icon: HelpCircle, role: "all" },
+    { name: "Plus info", path: "/profil", icon: HelpCircle, role: "all" },
   ];
 
   return (

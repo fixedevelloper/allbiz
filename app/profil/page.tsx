@@ -4,9 +4,16 @@ import BottomNav from "@/app/components/BottomNav";
 import Header from "@/app/components/Header";
 import { ShoppingBagIcon, SquareChevronUp, UserCog2Icon,PlusSquareIcon,HelpCircleIcon } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 export default function Profil() {
   const options = [
+    {
+      title: "Mon investissement",
+      icon: <ShoppingBagIcon className="w-6 h-6 text-[#014d74]" />,
+      description: "Votre parcours",
+      link:'dashboard/investissement'
+    },
     {
       title: "Apropos de nous",
       icon: <HelpCircleIcon className="w-6 h-6 text-[#014d74]" />,
@@ -33,7 +40,7 @@ export default function Profil() {
       <div className="bg-[#014d74] h-24" />
 
       <div className="px-4 -mt-12 space-y-4">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">
+        <h2 className="text-xl font-semibold text-white mb-2">
           Mon profil
         </h2>
 

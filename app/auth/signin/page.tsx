@@ -87,6 +87,18 @@ export default function Login() {
       setLoading(false);
     }
   };
+  const whatsappLink = () => {
+    const fullPhone = `${countryCode}${username}`.replace(/\s+/g, '');
+    const message = encodeURIComponent(
+        `Bonjour, j’ai oublié mon mot de passe.\nMon numéro est : ${fullPhone}`
+    );
+
+    // Numéro WhatsApp du support (SANS +)
+    const supportPhone = "22941784287";
+
+    return `https://wa.me/${supportPhone}?text=${message}`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 pb-20 flex flex-col">
 
@@ -129,6 +141,22 @@ export default function Login() {
             {error && (
               <p className="text-red-500 text-sm text-center">{error}</p>
             )}
+            <div className="text-right">
+              <a
+                  href={whatsappLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#014d74] hover:underline"
+                  onClick={(e) => {
+                    if (!username) {
+                      e.preventDefault();
+                      enqueueSnackbar("Veuillez entrer votre numéro", { variant: "warning" });
+                    }
+                  }}
+              >
+                Mot de passe oublié ?
+              </a>
+            </div>
 
             <Button
               type="submit"
