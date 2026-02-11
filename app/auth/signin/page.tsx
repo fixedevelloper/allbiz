@@ -18,7 +18,7 @@ export default function Login() {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [countries, setCountries] = useState<Country[]>([]);
-  const [countryCode, setCountryCode] = useState("+237");
+  const [countryCode, setCountryCode] = useState("+229");
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
