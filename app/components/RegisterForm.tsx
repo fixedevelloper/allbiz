@@ -14,7 +14,7 @@ export default function RegisterForm() {
     const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
     const [countries, setCountries] = useState<Country[]>([]);
-    const [countryCode, setCountryCode] = useState("+237");
+    const [countryCode, setCountryCode] = useState("+229");
     const [phone, setPhone] = useState("");
     const [reference, setReference] = useState("");
     const [showPassword, setShowPassword] = useState(false);
