@@ -8,6 +8,7 @@ import BottomNav from "@/app/components/BottomNav";
 import axiosServices from "../../../lib/axios";
 import PhoneInput from "../../../components/PhoneInput";
 import {Country} from "../../../types/types";
+import {enqueueSnackbar} from "notistack";
 
 
 interface Operator {
@@ -34,7 +35,7 @@ export default function NewWithdraw() {
     const [newAccountPhone, setNewAccountPhone] = useState("");
     const [newAccountOperatorId, setNewAccountOperatorId] = useState<number | null>(null);
     const [operators, setOperators] = useState<Operator[]>([]);
-    const [countryCode, setCountryCode] = useState("+237");
+    const [countryCode, setCountryCode] = useState("+229");
     const [amount, setAmount] = useState(0);
     const [balance, setBalance] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -102,10 +103,11 @@ export default function NewWithdraw() {
             });
             const balanceRes = await axiosServices.get("/api/user/balance");
             setBalance(balanceRes.data.balance ?? 0);
-            alert("Retrait demandé avec succès !");
+            enqueueSnackbar("Retrait demandé avec succès !",{ variant: "success" })
             setAmount(0);
+            router.push('/dashboard/withdraws');
         } catch (err) {
-            alert("Erreur lors du retrait");
+            enqueueSnackbar("Erreur lors du retrait", { variant: "error" });
         } finally {
             setProcessing(false);
         }
